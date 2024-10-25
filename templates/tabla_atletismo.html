@@ -1,0 +1,198 @@
+{% include "headerfuo.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Tabla de Posiciones</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cupingcss/stylecup.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+       
+        .select2-container--default .select2-selection--single {
+            border-radius: 20px !important;
+            width: 100% !important;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            border-radius: 20px !important;
+        }
+        .select2-container--default .select2-search {
+            display: none !important;
+        }
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #ff031c !important;
+            color: white !important;
+        }
+    </style>
+
+</head>
+<body>
+
+     <!-- Breadcrumb section -->
+	<div class="site-breadcrumb">
+
+	</div>
+	<!-- Breadcrumb section end -->
+    <div class="container">
+    <ol class="breadcrumb" style="background-color: transparent;">
+      <!--<li class="breadcrumb-item" ><a href="/" style="color: black"><i class="fa fa-home" style="color: black"></i> Inicio</a> </li>
+      <li class="breadcrumb-item active">Tabla de Posiciones</li>-->
+    </ol>
+    </div>
+
+
+    <section class="full-courses-section spad pt-0">
+    <div class="container">
+    <h4 class="h3-stylecup">Tabla de Posiciones Atletismo</h4>
+        <img style="display: block; margin: 0 auto; max-width: 250px; height: auto;"   src="{% static 'image/fesoje24.png' %}"><br><br>
+        
+        <div style="text-align: center;">
+            <form id="deporteForm" method="get">
+                <!--<label for="deporte">Selecciona un deporte:</label>-->
+                <select  id="deporte" name="deporte" style="border-radius: 20px; padding: 15px; ">
+                    <option value="TABLA" data-icon="fa-solid  fa-chart-bar" data-url="#">Tabla de Posiciones Atletismo</option>
+                    <option value="ATLETISMO" data-icon="fa-solid fa-running" data-url="/100m">Atletismo</option>
+                    <option value="RESULTADOS" data-icon="fa-solid fa-sign-in-alt" data-url="/resultados_feso">Todos los Deportes</option>
+                    <!-- Agrega las opciones para los demás deportes -->
+                </select>
+                <!--<button type="submit" style="border-radius: 8px; margin-top: 20px; background-color: #808080; color: white; padding: 8px; box-shadow: none; border: none;">Mostrar resultados</button>-->
+            </form>
+            
+        </div><br><br>
+        
+
+       <table id="tabla-posiciones">
+        <thead>
+            <tr>
+                <th class="columnaabsolute">Equipo</th>
+                <th >Posición</th>
+                <th>Puntuación Total</th>
+                <th>Detalles por Modalidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for posicion in posiciones_ordenadas %}
+            <tr>
+                <td class="columnaabsolute">
+                    <img src="{% static "image/" %}{{ posicion.equipo.imagen }}" alt="" class="equipo-img" style="display: inline">
+                    {{ posicion.equipo.nombre }}</td>
+                <td >{{ forloop.counter }}</td>
+                <td>{{ posicion.puntos }}</td>
+                <td>
+                    <ul  class="deporte-detalles">
+                        {% for detalle in posicion.detalles %}
+                        <ul>{{ detalle.emoji }} {{ detalle.deporte }}:  {{ detalle.puntos }} puntos  </ul>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No hay resultados disponibles</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+</table><br><br>
+
+    <h4 >Puntaje Atletismo</h4>
+        <img style=" max-width: 250px; "   src="{% static 'image/fesoje24.png' %}"><br><br>
+    <ul style="list-style-type: none;">
+        <li > <i class="fa fa-venus-mars"></i> Mixto<br> 
+            &#129351; 1er Puesto: 10pts<br>  &#129352; 2do Puesto: 6pts<br> &#129353; 3er Puesto: 4pts<br> 4️⃣ 4to Puesto: 3pts<br> 5️⃣ 5to Puesto: 2pts<br> 6️⃣ 6to Puesto: 1pts</li><br>
+
+    <li style="visibility: hidden;">&nbsp;</li>
+</ul>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    </section>
+
+<!-- Blog section -->
+	<section class="blog-section spad">
+		<div class="container">
+			<div class="section-title text-center">
+                <h4><i class="fa fa-newspaper-o"></i> FUO Noticias</h4>
+				
+			</div>
+			<div class="row">
+                {% for post in posts %}
+				<div class="col-xl-6 col-md-6 col-sm-12">
+					<div class="blog-item" id="blogItem">
+						<div class="blog-thumb set-bg" data-setbg="{% static "image/" %}{{ post.foto }}"></div>
+						<div class="blog-content">
+                            <h4><a href="/noticias/{{ post.id }}" style="color:black">{{ post.title }}</a></h4>
+							<div class="blog-meta">
+								<span><i class="fa fa-calendar-o"></i> {{ post.published_date }} </span>
+								<span><i class="fa fa-user"></i> {{ post.author }} </span>
+							</div>
+							<p>{{ post.text|truncatewords:"25" }}</p>
+						</div>
+					</div>
+				</div>
+                {% endfor %}
+			</div>
+		</div>
+	</section>
+	<!-- Blog section -->
+{% include "pie_pagina.html" %}
+     
+    <script src="{% static "js/cupingjs/script.js" %}"></script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#deporte').select2({
+            templateResult: function(state) {
+                if (!state.id) {
+                    return state.text;
+                }
+                var iconClass = $(state.element).data('icon');
+                var $state = $(
+                    '<span><i class="' + iconClass + '"></i> ' + state.text + '</span>'
+                );
+                return $state;
+            },
+            templateSelection: function(state) {
+                if (!state.id) {
+                    return state.text;
+                }
+                var iconClass = $(state.element).data('icon');
+                var $state = $(
+                    '<span><i class="' + iconClass + '"></i> ' + state.text + '</span>'
+                );
+                return $state;
+            }
+        });
+    
+        $('#deporte').change(function() {
+            var selectedOption = $(this).find('option:selected');
+            var url = selectedOption.data('url');
+    
+            if (url) {
+                // Si hay una URL asociada, redirigir
+                window.location.href = url;
+            } else {
+                // De lo contrario, enviar el formulario
+                $('#deporteForm').submit();
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>
